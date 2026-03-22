@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kking-ar.github.io/Anything-AR/sitemap.xml
