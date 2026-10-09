@@ -3,24 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Redirecting...</title>
+    <title>إعادة التوجيه...</title>
     <script>
       (() => {
-        const currentPath = window.location.pathname;
-        const currentSearch = window.location.search;
-        const currentHash = window.location.hash;
+        const currentPath = window.location.pathname || '/';
+        const currentSearch = window.location.search || '';
+        const currentHash = window.location.hash || '';
 
-        // If the site is hosted from a repo subpath, keep the repo path in the base.
-        const basePath = currentPath.replace(/\/404\.html$/i, '').replace(/\/$/, '');
-        const target = `${window.location.origin}${basePath || '/'}${currentSearch}${currentHash}`;
+        const fallbackBase = 'https://anything-ar.framer.website';
 
-        // Redirect to the homepage if no real route exists.
-        // This avoids the GitHub Pages 404 page and lets the app load again.
-        window.location.replace(target || window.location.origin + '/');
+        let cleanPath = currentPath;
+        if (cleanPath === '/anything-ar' || cleanPath === '/anything-ar/') {
+          cleanPath = '/';
+        } else if (cleanPath.startsWith('/anything-ar/')) {
+          cleanPath = cleanPath.replace(/^\/anything-ar/i, '');
+        } else if (cleanPath.startsWith('/Anything-AR/')) {
+          cleanPath = cleanPath.replace(/^\/Anything-AR/i, '');
+        }
+
+        if (!cleanPath || cleanPath === '') {
+          cleanPath = '/';
+        }
+
+        const target = `${fallbackBase}${cleanPath}${currentSearch}${currentHash}`;
+        window.location.replace(target);
       })();
     </script>
   </head>
   <body>
-    <p>جاري إعادة التوجيه...</p>
+    <p>جاري إعادة التوجيه إلى الموقع الجديد...</p>
   </body>
 </html>
