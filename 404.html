@@ -3,34 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>إعادة التوجيه...</title>
+    <title>جاري التحميل...</title>
     <script>
       (() => {
+        // Get the current path, search params, and hash
         const currentPath = window.location.pathname || '/';
         const currentSearch = window.location.search || '';
         const currentHash = window.location.hash || '';
-
-        const fallbackBase = 'https://anything-ar.framer.website';
-
-        let cleanPath = currentPath;
-        if (cleanPath === '/anything-ar' || cleanPath === '/anything-ar/') {
-          cleanPath = '/';
-        } else if (cleanPath.startsWith('/anything-ar/')) {
-          cleanPath = cleanPath.replace(/^\/anything-ar/i, '');
-        } else if (cleanPath.startsWith('/Anything-AR/')) {
-          cleanPath = cleanPath.replace(/^\/Anything-AR/i, '');
+        
+        // Check if the path already contains /anything-ar
+        const hasRepositoryPath = currentPath.includes('/anything-ar');
+        
+        let correctPath = currentPath;
+        
+        // If the path doesn't have /anything-ar, add it
+        if (!hasRepositoryPath) {
+          correctPath = '/anything-ar' + currentPath;
         }
-
-        if (!cleanPath || cleanPath === '') {
-          cleanPath = '/';
-        }
-
-        const target = `${fallbackBase}${cleanPath}${currentSearch}${currentHash}`;
+        
+        // Build the full URL with the correct path
+        const target = `${window.location.protocol}//${window.location.host}${correctPath}${currentSearch}${currentHash}`;
+        
+        // Navigate to the corrected path
         window.location.replace(target);
       })();
     </script>
   </head>
   <body>
-    <p>جاري إعادة التوجيه إلى الموقع الجديد...</p>
+    <p>جاري إعادة التوجيه إلى الصفحة الصحيحة...</p>
   </body>
 </html>
