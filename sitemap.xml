@@ -118,4 +118,11 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+    <url>
+    <loc>https://kking-ar.github.io/Anything-AR/patrick</loc>
+    <lastmod>2026-10-9</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
