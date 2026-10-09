@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting...</title>
+    <script>
+      (() => {
+        const currentPath = window.location.pathname;
+        const currentSearch = window.location.search;
+        const currentHash = window.location.hash;
+
+        // If the site is hosted from a repo subpath, keep the repo path in the base.
+        const basePath = currentPath.replace(/\/404\.html$/i, '').replace(/\/$/, '');
+        const target = `${window.location.origin}${basePath || '/'}${currentSearch}${currentHash}`;
+
+        // Redirect to the homepage if no real route exists.
+        // This avoids the GitHub Pages 404 page and lets the app load again.
+        window.location.replace(target || window.location.origin + '/');
+      })();
+    </script>
+  </head>
+  <body>
+    <p>جاري إعادة التوجيه...</p>
+  </body>
+</html>
