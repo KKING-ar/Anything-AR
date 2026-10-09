@@ -3,33 +3,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>جاري التحميل...</title>
-    <script>
-      (() => {
-        // Get the current path, search params, and hash
-        const currentPath = window.location.pathname || '/';
-        const currentSearch = window.location.search || '';
-        const currentHash = window.location.hash || '';
-        
-        // Check if the path already contains /anything-ar
-        const hasRepositoryPath = currentPath.includes('/anything-ar');
-        
-        let correctPath = currentPath;
-        
-        // If the path doesn't have /anything-ar, add it
-        if (!hasRepositoryPath) {
-          correctPath = '/anything-ar' + currentPath;
-        }
-        
-        // Build the full URL with the correct path
-        const target = `${window.location.protocol}//${window.location.host}${correctPath}${currentSearch}${currentHash}`;
-        
-        // Navigate to the corrected path
-        window.location.replace(target);
-      })();
-    </script>
+    <title>404 - الصفحة غير موجودة</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: #f0f0f0;
+      }
+      .container {
+        text-align: center;
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      h1 { font-size: 48px; margin: 0; color: #333; }
+      p { font-size: 18px; color: #666; margin: 20px 0; }
+      a { 
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+      a:hover { background: #0056b3; }
+    </style>
   </head>
   <body>
-    <p>جاري إعادة التوجيه إلى الصفحة الصحيحة...</p>
+    <div class="container">
+      <h1>404</h1>
+      <p>الصفحة غير موجودة</p>
+      <p>عذراً، الصفحة التي تبحث عنها غير موجودة.</p>
+      <a href="/">العودة إلى الصفحة الرئيسية</a>
+    </div>
   </body>
 </html>
