@@ -4,6 +4,129 @@
 <!-- Published Oct 9, 2026, 3:18 PM UTC -->
 <html dir="rtl" lang="ar">
 <head>
+<!-- NAVFIX:START -->
+<script data-navfix>
+(function(){try{
+var C={"page": "games/gambonanza.html", "depth": 1, "repo": "anything-ar", "pages": ["games/baba", "games/badnorth", "games/gambonanza", "games/monument1", "games/monument2", "games/monument3", "games/patrick", "games/pikuniku", "games/sokobond"]};
+var BASE=location.href;
+var REAL=location.pathname;
+var segs=REAL.split('/');segs.pop();
+for(var i=0;i<C.depth&&segs.length>1;i++)segs.pop();
+var ROOT=segs.join('/')+'/';
+var P={};for(var j=0;j<C.pages.length;j++)P[C.pages[j]]=1;
+var rawReplace=history.replaceState;
+
+function NAV(u){location.assign(u);}
+
+/* "which of my pages does this URL mean?"  -> 'index.html' | 'games/x.html' | null */
+function toKey(u){
+  var p=u.pathname;
+  p=(p.indexOf(ROOT)===0)?p.slice(ROOT.length):p.replace(/^\/+/,'');
+  p=p.replace(/\/+$/,'').replace(/\.html?$/i,'');
+  var parts=p?p.split('/'):[];
+  for(var i=0;i<=parts.length;i++){
+    var rest=parts.slice(i).join('/');
+    if(i===0&&rest==='')return 'index.html';
+    if(rest==='index'||rest===C.repo)return 'index.html';
+    if(rest&&P[rest])return rest+'.html';
+  }
+  return null;
+}
+function dest(k){return ROOT+(k==='index.html'?'':k);}
+
+/* 0) reload with a #hash -> drop the hash and open at the top */
+try{
+  var nv=(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0])||null;
+  var isReload=nv?nv.type==='reload':!!(performance.navigation&&performance.navigation.type===1);
+  if(isReload&&location.hash){
+    rawReplace.call(history,history.state,'',location.pathname+location.search);
+    if('scrollRestoration' in history)history.scrollRestoration='manual';
+    var top=function(){window.scrollTo(0,0);};
+    top();
+    window.addEventListener('DOMContentLoaded',top);
+    window.addEventListener('load',function(){top();setTimeout(top,150);});
+  }
+}catch(e){}
+
+/* 1) remember each link's ORIGINAL href before Framer's script can change it */
+function stamp(n){
+  if(!n||n.nodeType!==1)return;
+  if(n.tagName==='A'&&n.hasAttribute('href')&&!n.hasAttribute('data-nf'))n.setAttribute('data-nf',n.getAttribute('href'));
+  var l=n.querySelectorAll?n.querySelectorAll('a[href]:not([data-nf])'):[];
+  for(var i=0;i<l.length;i++)l[i].setAttribute('data-nf',l[i].getAttribute('href'));
+}
+try{
+  new MutationObserver(function(ms){
+    for(var i=0;i<ms.length;i++)for(var j=0;j<ms[i].addedNodes.length;j++)stamp(ms[i].addedNodes[j]);
+  }).observe(document,{childList:true,subtree:true});
+}catch(e){}
+
+/* 2) never let the address bar leave this page's real URL */
+function wrap(name){
+  var orig=history[name];
+  history[name]=function(s,t,u){
+    var args=[s,t,u];
+    try{
+      if(u!=null){
+        var x=new URL(String(u),location.href);
+        if(x.origin===location.origin){
+          var k=toKey(x);
+          if(name==='pushState'&&k&&k!==C.page){NAV(dest(k)+x.search+x.hash);return;}
+          if(x.pathname!==REAL)args[2]=REAL+x.search+x.hash;
+        }
+      }
+    }catch(e){}
+    return orig.apply(this,args);
+  };
+}
+wrap('pushState');wrap('replaceState');
+
+/* helpers for links */
+function linkInfo(a){
+  var raw=a.getAttribute('data-nf')||a.getAttribute('href');
+  if(!raw||/^(#|mailto:|tel:|javascript:|sms:|data:|whatsapp:)/i.test(raw))return null;
+  var u=new URL(raw,BASE);
+  if(u.origin!==location.origin)return null;
+  var k=toKey(u);
+  return k?{u:u,k:k}:null;
+}
+function closestA(e){return e.target&&e.target.closest?e.target.closest('a[href]'):null;}
+
+/* 3) clicks on my own pages = normal page load to the correct real file */
+window.addEventListener('click',function(e){
+  try{
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    var a=closestA(e);if(!a)return;
+    var tg=a.getAttribute('target');if(tg&&tg!=='_self')return;
+    if(a.hasAttribute('download'))return;
+    var d=linkInfo(a);if(!d)return;
+    if(d.k===C.page){
+      if(d.u.hash)return;                       /* same page + #section: let Framer scroll */
+      e.preventDefault();e.stopImmediatePropagation();
+      window.scrollTo({top:0,behavior:'smooth'});
+      return;
+    }
+    e.preventDefault();e.stopImmediatePropagation();
+    NAV(dest(d.k)+d.u.search+d.u.hash);
+  }catch(err){}
+},true);
+
+/* 4) keep href right for middle-click / "open in new tab" */
+function sync(e){
+  try{
+    var a=closestA(e);if(!a)return;
+    var d=linkInfo(a);if(!d||d.k===C.page)return;
+    var want=dest(d.k)+d.u.search+d.u.hash;
+    if(a.getAttribute('href')!==want)a.setAttribute('href',want);
+  }catch(err){}
+}
+['pointerover','touchstart','focusin','contextmenu','mousedown'].forEach(function(n){
+  window.addEventListener(n,sync,true);
+});
+}catch(err){}})();
+</script>
+<!-- NAVFIX:END -->
+
 <meta charset="utf-8"/>
 <meta content="width=device-width" name="viewport"/>
 <meta content="Framer 0da2bc6" name="generator"/>
